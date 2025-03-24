@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        button {
+            background-color: aqua;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <form id="registerForm">
+        <h1>Đăng ký</h1>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Mật khẩu:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="confirmPassword">Xác nhận mật khẩu:</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+        <button type="submit" id="clickButton">Đăng ký</button>
+    </form>
+
+    <script>
+        document.querySelector('#registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.querySelector('#email').value;
+            const password = document.querySelector('#password').value;
+            const confirmPassword = document.querySelector('#confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Mật khẩu không khớp rồi');
+                return;
+            }
+
+            if (localStorage.getItem(email)) {
+                alert('Email đã được đăng ký.');
+                return;
+            }
+
+            localStorage.setItem(email, password);
+            alert('Đăng ký thành công.');
+        });
+    </script>
+</body>
+</html>
