@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách nhân viên Rikkei</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .employee-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .employee-form input,
+        .employee-form button {
+            padding: 8px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh sách nhân viên Rikkei</h1>
+
+    <div class="employee-form">
+        <input type="text" id="employeeName" placeholder="Tên nhân viên">
+        <input type="text" id="employeePosition" placeholder="Chức vụ">
+        <button id="addEmployee">Thêm nhân viên</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên</th>
+                <th>Chức vụ</th>
+            </tr>
+        </thead>
+        <tbody id="employeeList"></tbody>
+    </table>
+
+    <script>
+        const employeeNameInput = document.querySelector('#employeeName');
+        const employeePositionInput = document.querySelector('#employeePosition');
+        const addEmployeeButton = document.querySelector('#addEmployee');
+        const employeeListTable = document.querySelector('#employeeList');
+
+        let employees = JSON.parse(localStorage.getItem('employees')) || [];
+
+        function renderEmployees() {
+            employeeListTable.innerHTML = '';
+            employees.forEach((employee, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${employee.name}</td>
+                    <td>${employee.position}</td>
+                `;
+                employeeListTable.appendChild(row);
+            });
+        }
+
+        function addEmployee() {
+            const name = employeeNameInput.value.trim();
+            const position = employeePositionInput.value.trim();
+
+            if (name && position) {
+                employees.push({ name, position });
+                localStorage.setItem('employees', JSON.stringify(employees));
+                employeeNameInput.value = '';
+                employeePositionInput.value = '';
+                renderEmployees();
+            }
+        }
+
+        addEmployeeButton.addEventListener('click', addEmployee);
+
+        renderEmployees();
+    </script>
+</body>
+</html>
